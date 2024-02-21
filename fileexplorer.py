@@ -179,4 +179,8 @@ if __name__ == "__main__":
     file_explorer = FileExplorer(root)
     file_explorer.pack(fill=tk.BOTH, expand=True)
 
+    # Update the tree view after creating a new file
+    # Example: If new_file.txt is created, call populate_tree again
+    # file_explorer.populate_tree()
+
     root.mainloop()
