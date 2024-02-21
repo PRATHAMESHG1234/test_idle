@@ -3,7 +3,7 @@ import tkinter as tk
 from tkterminal import Terminal
 
 
-class TerminalApp(tk.Frame):
+class TerminalApp(tk.Text):
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
 

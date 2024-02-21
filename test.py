@@ -238,7 +238,7 @@ class App(tk.Tk):
 
     def bind_events(self):
         # Bind events
-        self.bind('<Control-s>', lambda event: self.methods.save_file())
+        self.bind('<Control-s>', lambda event: self.methods.save_file)
         self.sidebar_files.tree.bind('<Double-1>', self.methods.open_file)
         self.bind("<Configure>", self.methods.on_resize)
 

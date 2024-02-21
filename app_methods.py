@@ -24,11 +24,12 @@ class AppMethods:
                 self.open_files_in_directory(item_path)
             elif os.path.isfile(item_path):
                 try:
-                    self.app.add_tab_to_notebook(item_text,item_path) 
+                    self.app.add_tab_to_notebook(item_text, item_path)
                     with open(item_path, 'r') as file:
                         self.app.file_content = file.read()
                         self.app.file_text_editor.delete("1.0", tk.END)
-                        self.app.file_text_editor.insert(tk.END, self.app.file_content)
+                        self.app.file_text_editor.insert(
+                            tk.END, self.app.file_content)
                         self.app.line_numbers.redraw()
                 except OSError as e:
                     print(f"Failed to open file: {e}")
@@ -41,7 +42,8 @@ class AppMethods:
                     with open(item_path, 'r') as file:
                         self.app.file_content = file.read()
                         self.app.file_text_editor.delete("1.0", tk.END)
-                        self.app.file_text_editor.insert(tk.END, self.app.file_content)
+                        self.app.file_text_editor.insert(
+                            tk.END, self.app.file_content)
                         self.app.line_numbers.redraw()
                         break
                 except OSError as e:
@@ -51,6 +53,7 @@ class AppMethods:
                 break
 
     def save_file(self, event=None):
+        print("Saving file")
         content = self.app.file_text_editor.get("1.0", "end-1c")
         self.app.file_content = content
         selected_item = self.app.sidebar_files.tree.focus()
