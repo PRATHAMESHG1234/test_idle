@@ -101,14 +101,15 @@ class FileExplorer(tk.Frame):
 
         # Schedule periodic refresh of the file explorer
         # Adjust the interval as needed
-        self.after(5000, self.refresh_file_explorer)
+        self. refresh_file_explorer()
 
     def refresh_file_explorer(self):
         # Update the file explorer contents
         self.populate_tree()
         # Schedule the next refresh
         # Adjust the interval as needed
-        self.after(5000, self.refresh_file_explorer)
+
+        self.after(3000, self.refresh_file_explorer)
 
     def configure_dropdown_canvas(self):
         self.dropdown_options_canvas.config(
