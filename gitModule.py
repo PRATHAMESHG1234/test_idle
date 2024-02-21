@@ -7,6 +7,7 @@ import difflib
 import git
 import os
 
+
 def get_commit_history(repo):
     commit_history = []
     if repo:
@@ -16,6 +17,7 @@ def get_commit_history(repo):
                 commit_info = f"{commit.summary}"
                 commit_history.append(commit_info)
     return commit_history
+
 
 def commit_changes(repo, commit_message):
     if repo and commit_message:
@@ -60,6 +62,7 @@ def push_changes(commit_message):
     else:
         return False, "Git repository not initialized"
 
+
 def create_new_repository(github, repo_name):
     if not github:
         return False, "Please login to GitHub first"
@@ -71,12 +74,14 @@ def create_new_repository(github, repo_name):
     except Exception as e:
         return False, f"Error creating repository: {e}"
 
+
 def initialize_empty_git_repo():
     try:
         repo = git.Repo.init()
         return True, "Git repository initialized"
     except git.exc.InvalidGitRepositoryError:
         return False, "Invalid Git repository"
+
 
 def load_access_token():
     if os.path.exists("access_token.txt"):
@@ -86,9 +91,11 @@ def load_access_token():
         access_token = ""
     return access_token
 
+
 def save_access_token(access_token):
     with open("access_token.txt", "w") as file:
         file.write(access_token)
+
 
 def check_git_repository():
     try:
@@ -97,13 +104,13 @@ def check_git_repository():
         return None
 
 
-
 def get_previous_code():
     try:
         cwd = os.getcwd()  # Get the current working directory
-        repo = git.Repo(cwd)  # Open the Git repository in the current directory
+        # Open the Git repository in the current directory
+        repo = git.Repo(cwd)
         last_commit = repo.head.commit  # Get the latest commit
-        
+
         previous_code = {}
         for item in last_commit.tree.traverse():
             try:
@@ -118,6 +125,7 @@ def get_previous_code():
     except git.exc.InvalidGitRepositoryError as e:
         print(f"Invalid Git repository path: {e}")
         return None
+
 
 def get_current_code():
     current_code = {}
@@ -137,9 +145,9 @@ def get_current_code():
     except OSError as e:
         print(f"Error reading files in the current working directory: {e}")
 
-       
-
+    print(current_code)
     return current_code
+
 
 def get_code_changes(previous_code, current_code):
     code_changes = {}
@@ -151,14 +159,16 @@ def get_code_changes(previous_code, current_code):
             current_content = current_code[file_name]
 
             # Split content into lines and remove leading/trailing whitespace
-            previous_lines = [line.strip() for line in previous_content.splitlines()]
-            current_lines = [line.strip() for line in current_content.splitlines()]
+            previous_lines = [line.strip()
+                              for line in previous_content.splitlines()]
+            current_lines = [line.strip()
+                             for line in current_content.splitlines()]
 
             # Compare line by line and identify changed lines
             changed_lines = [
                 (line_number, previous_line, current_line)
-                for line_number, (previous_line, current_line) 
-                in enumerate(zip(previous_lines, current_lines), start=1) 
+                for line_number, (previous_line, current_line)
+                in enumerate(zip(previous_lines, current_lines), start=1)
                 if previous_line != current_line
             ]
 
@@ -170,7 +180,7 @@ def get_code_changes(previous_code, current_code):
                 "Status": "Added",
                 "Content": current_code[file_name]
             }
-    
+
     # Find deleted files
     for file_name in previous_code:
         if file_name not in current_code:
@@ -182,15 +192,13 @@ def get_code_changes(previous_code, current_code):
 
     return code_changes
 
+
 def generate_commit_message():
 
     repo_path = get_repo_path()
     current_code = get_current_code()
-    
-   
 
     previous_code = get_previous_code()
-    
 
     if current_code or previous_code:
         code_changes = get_code_changes(previous_code, current_code)
@@ -223,11 +231,10 @@ def generate_commit_message():
 
         # Return None if no message generated
         return None
-      
+
     else:
         print("Unable to retrieve current or previous code.")
         # Assuming you have already set up your OpenAI client
-       
 
 
 def get_repo_path():
@@ -240,6 +247,3 @@ def get_repo_path():
 
 
 # Example usage:
-
-
-
