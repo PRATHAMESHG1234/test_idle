@@ -40,9 +40,6 @@ class FileExplorer(tk.Frame):
         # Bind double click event to handle folder opening
         self.tree.bind('<Double-1>', self.on_double_click)
 
-        # Populate tree with current directory contents
-        self.populate_tree()
-
         # Create the timeline frame
         self.timeline_frame = ttk.Frame(
             self, style='Custom.TFrame',  relief=tk.SOLID,)
@@ -102,6 +99,17 @@ class FileExplorer(tk.Frame):
 
         self.timeline_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
+        # Schedule periodic refresh of the file explorer
+        # Adjust the interval as needed
+        self.after(5000, self.refresh_file_explorer)
+
+    def refresh_file_explorer(self):
+        # Update the file explorer contents
+        self.populate_tree()
+        # Schedule the next refresh
+        # Adjust the interval as needed
+        self.after(5000, self.refresh_file_explorer)
+
     def configure_dropdown_canvas(self):
         self.dropdown_options_canvas.config(
             scrollregion=self.dropdown_options_canvas.bbox("all"))
@@ -160,6 +168,7 @@ class FileExplorer(tk.Frame):
                 self._populate_tree(item_path, item_id)
 
     def on_double_click(self, event):
+        self.populate_tree()
         # Get the selected item in the tree
         item_id = self.tree.focus()
         if item_id:
@@ -178,9 +187,5 @@ if __name__ == "__main__":
 
     file_explorer = FileExplorer(root)
     file_explorer.pack(fill=tk.BOTH, expand=True)
-
-    # Update the tree view after creating a new file
-    # Example: If new_file.txt is created, call populate_tree again
-    # file_explorer.populate_tree()
 
     root.mainloop()
