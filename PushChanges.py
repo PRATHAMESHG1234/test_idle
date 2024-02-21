@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import simpledialog
+from tkinter import messagebox
 
-from gitModule import generate_commit_message, push_changes
+from gitModule import check_git_repository, generate_commit_message, push_changes
 import os
 
 
@@ -68,6 +69,14 @@ class CommitMessagePopup(tk.Toplevel):
         # Retrieve the commit message from the entry field
         commit_message = self.commit_message.get()
 
+        # Check if the Git repository is valid
+        repo = check_git_repository()
+        if repo is None:
+            # If repository is invalid, show a popup
+            messagebox.showerror(
+                "Error", "Git repository not found or invalid.")
+            return
+
         # Logic to push changes goes here
         success, message = push_changes(commit_message)
 
@@ -110,5 +119,5 @@ class CommitMessagePopup(tk.Toplevel):
 # Example usage:
 if __name__ == "__main__":
     root = tk.Tk()
-    app = CommitMessagePopup(root)
+    app = CommitMessagePopup(root, "Previous Content")
     root.mainloop()
