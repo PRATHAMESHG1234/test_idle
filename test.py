@@ -124,7 +124,7 @@ class App(tk.Tk):
         visualize_code_button.pack(side=tk.RIGHT, padx=10, pady=5)
 
     def push_code_action(self):
-        self.popup = CommitMessagePopup(self)
+        self.popup = CommitMessagePopup(self, self.active_open_file)
         self.popup.grab_set()
         self.wait_window(self.popup)
 
